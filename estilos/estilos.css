@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
 header{
     background-color: rgb(119, 33, 12);
     position: sticky;
@@ -5,4 +7,32 @@ header{
 
 .header_menu #Title{
     color: white;
+    margin-left:20;
+}
+
+.Contenedor{
+    float: right;
+    margin-top:-50;
+    margin-right:20;
+}
+
+.header_menu nav ul li{
+    list-style:none;
+    margin-left:25px;
+    float:left;
+}
+
+.header_menu nav ul li a{
+    font-family:"Oswald";
+    font-size:25px;
+    text-decoration:none;
+    color:white;
+    transition-duration: 0.12s;
+    transition-timing-function: ease-out;
+}
+
+.header_menu nav ul li a:hover{
+    color:#e0e315;
+    transition-duration: 0.12s;
+    transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
 }
