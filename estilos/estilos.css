@@ -1,5 +1,6 @@
 header{
     background-color: rgb(119, 33, 12);
+    position: sticky;
 }
 
 .header_menu #Title{
