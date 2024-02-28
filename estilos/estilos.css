@@ -38,3 +38,8 @@ header{
     transition-duration: 0.12s;
     transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
 }
+
+.encabezado_principal #titulo{
+    text-align:center;
+    color:black;
+}
