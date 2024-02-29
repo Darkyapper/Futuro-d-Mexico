@@ -68,3 +68,7 @@ header{
     justify-content:space-around;
     align-items:center;
 }
+
+#card-menu{
+    box-shadow:4px 4px 5px #1a1925a1;
+}
