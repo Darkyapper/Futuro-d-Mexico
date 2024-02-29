@@ -34,7 +34,7 @@ header{
     font-family:"Oswald";
     font-size:25px;
     text-decoration:none;
-    color:white;
+    color:rgb(255 255 255);
     transition-duration: 0.12s;
     transition-timing-function: ease-out;
 }
