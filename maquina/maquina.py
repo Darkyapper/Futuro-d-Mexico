@@ -1,7 +1,6 @@
 import time
 import random
 
-
 class User:
     @staticmethod
     def Main():
@@ -59,7 +58,7 @@ class Coin_Collection_Box:
         while self.User_Credits < self.To_Pay:
             print("Please insert coins:")
             e = int(input())
-            time.sleep(1)
+            time.sleep(2)
             if e < 1:
                 print("ERROR x0004: That isn't a real currency value! Please try again.")
             else:
