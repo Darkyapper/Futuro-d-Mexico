@@ -1,6 +1,7 @@
 import time
 import random
 
+
 class User:
     @staticmethod
     def Main():
