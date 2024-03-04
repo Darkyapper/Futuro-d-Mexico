@@ -1,0 +1,46 @@
+Aquí estan las explicaciones para diversas funciones que necesiten.
+
+###################################################################
+       --- #CREACION DE ENTORNO VIRTUAL VENV CON PYTHON# ---
+                !IMPORTANTE PARA INSTALAR DJANGO!
+###################################################################
+
+!!NECESARIO INSTALAR LAS EXTENCIONES DE PYTHON EN VSCODE "Python IntelliSence (Pylance) by Microsfot"!!
+
+* SI TIENES EL PYTHON DESCARGADO DIRECTAMENTE DE LA TIENDA DE MICROSOFT, DEBES SEGUIR PRIMERO ESTOS PASOS:
+
+1.- Desinstala Python desde configuraciones.
+2.- Descarga Python desde su página oficial 'https://www.python.org/downloads/' (Se esta usando la version 3.12.2 para este proyecto).
+3.- Instala Python como cualquier programa.
+4.- Verifica que este este guardado en "C:\sers\TuUsuario\AppData\Local\Programs\Python312".
+5.- Verifica que dentro de esta carpeta este haya otra carpeta llamada Scripts y esta tenga unos archivos llamados "pip".
+6.- Abre el CMD y escribe Python, te enviará a la tienda de Microsoft, instala nuevamente ese Python (Asegura que es la version 3.12).
+7.- Una vez instalado escribe python --version en el CMD y luego pip --version para verificar que si esten instalados.
+8.- Ahora en la barra de apps, busca "Variables de entorno" y entra a esta configuracion ("Editar las Variables de Entorno del Sistema").
+9.- Selecciona el boton "Variables de Entorno...".
+10.- Selecciona "Path" del segundo cuadro ("Variables de Sistema") y selecciona luego "Editar".
+11.- Selecciona el boton nuevo y escribe la ruta donde Python está instalado (debe de verse asi: 'C:\sers\TuUsuario\AppData\Local\Programs\Python312').
+12.- Repita el mismo procedimiento para los scripts ('C:\sers\TuUsuario\AppData\Local\Programs\Python312\Scripts').
+13.- Guarde todos los cambios dandole "Aceptar" a todas las ventanas.
+
+* UNA VEZ REALIZADO ESTO, APLICA UNA DE LAS DOS FORMAS PARA CREAR EL VENV
+Forma 1:
+
+1.- En el CMD del sistema, busca la ruta de la carpeta del proyecto (Ex: C:\Documents\Programacion\Futuro-d-Mexico).
+2.- Escribe en el CMD dentro de la carpeta del proyecto 'pip install virtualenv' y espera a que se instale correctamente.
+3.- Escribe el comando "virtualenv env" para que se cree una carpeta llamada env, en la cual dentro habrán muchos documentos.
+4.- Activa el entornto virtual escribiendo este comando ".\env\Scripts\activate", si todo sale bien, al inicio de cada linea debe salir '(env)'.
+
+Forma 2:
+1.- En el CMD del sistema, busca la ruta de la carpeta del proyecto (Ex: C:\Documents\Programacion\Futuro-d-Mexico).
+2.- Escribe en el CMD dentro de la carpeta del proyecto 'python -m  venv .\env' esto debe crear una carpeta con todos los archivos necesarios
+3.- Activa el entornto virtual escribiendo este comando ".\env\Scripts\activate", si todo sale bien, al inicio de cada linea debe salir '(env)'.
+
+* UNA VEZ ESTE INSTALADO EL ENTORNO VIRTAL, HAY QUE AUTORIZAR A VSCODE PARA ACTIVAR EL MODO DE ENTORNO
+
+1.- En una ventana nueva (vacia) de VScode, arrstra la carpeta del proyecto (Futuro-d-Mexico) para que este se abra junto con todos los archivos.
+2.- Si tienes terminales abiertas, borralas ('Icono basurero'), Y abre una terminal nueva "... | Terminal | New Terminal".
+3.- Escribe el comando 'Set-ExecutionPolicy Unrestricted -Scope Process' en la terminal de VSC para autorizar a VScode entrar al modo de entorno.
+4.- Escribe el comando 'env\Sripts\Activate.ps1' para activar el modo de entorno.
+5.- Verifia que se haya activado, en cada linea nueva de la terminal debe salir '(env)'. Es necesario hacer esto cada vez que se entre a VScode y en vez de '(env)' salga 'PS'.
+
