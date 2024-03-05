@@ -2,7 +2,7 @@ Aquí estan las explicaciones para diversas funciones que necesiten.
 
 ###################################################################
        --- #CREACION DE ENTORNO VIRTUAL VENV CON PYTHON# ---
-                !IMPORTANTE PARA INSTALAR DJANGO!
+                !IMPORTANTE PARA INSTALAR FLASK!
 ###################################################################
 
 !!NECESARIO INSTALAR LAS EXTENCIONES DE PYTHON EN VSCODE "Python IntelliSence (Pylance) by Microsfot"!!
@@ -24,14 +24,16 @@ Aquí estan las explicaciones para diversas funciones que necesiten.
 13.- Guarde todos los cambios dandole "Aceptar" a todas las ventanas.
 
 * UNA VEZ REALIZADO ESTO, APLICA UNA DE LAS DOS FORMAS PARA CREAR EL VENV
-Forma 1:
 
 1.- En el CMD del sistema, busca la ruta de la carpeta del proyecto (Ex: C:\Documents\Programacion\Futuro-d-Mexico).
 2.- Escribe en el CMD dentro de la carpeta del proyecto 'pip install virtualenv' y espera a que se instale correctamente.
-3.- Escribe el comando "virtualenv env" para que se cree una carpeta llamada env, en la cual dentro habrán muchos documentos.
-4.- Activa el entornto virtual escribiendo este comando ".\env\Scripts\activate", si todo sale bien, al inicio de cada linea debe salir '(env)'.
+Forma 1:
+
+1.- Escribe el comando "virtualenv env" para que se cree una carpeta llamada env, en la cual dentro habrán muchos documentos.
+2.- Activa el entornto virtual escribiendo este comando ".\env\Scripts\activate", si todo sale bien, al inicio de cada linea debe salir '(env)'.
 
 Forma 2:
+
 1.- En el CMD del sistema, busca la ruta de la carpeta del proyecto (Ex: C:\Documents\Programacion\Futuro-d-Mexico).
 2.- Escribe en el CMD dentro de la carpeta del proyecto 'python -m  venv .\env' esto debe crear una carpeta con todos los archivos necesarios
 3.- Activa el entornto virtual escribiendo este comando ".\env\Scripts\activate", si todo sale bien, al inicio de cada linea debe salir '(env)'.
@@ -41,6 +43,36 @@ Forma 2:
 1.- En una ventana nueva (vacia) de VScode, arrstra la carpeta del proyecto (Futuro-d-Mexico) para que este se abra junto con todos los archivos.
 2.- Si tienes terminales abiertas, borralas ('Icono basurero'), Y abre una terminal nueva "... | Terminal | New Terminal".
 3.- Escribe el comando 'Set-ExecutionPolicy Unrestricted -Scope Process' en la terminal de VSC para autorizar a VScode entrar al modo de entorno.
-4.- Escribe el comando 'env\Sripts\Activate.ps1' para activar el modo de entorno.
+4.- Escribe el comando '.\env\Scripts\activate' para activar el modo de entorno.
 5.- Verifia que se haya activado, en cada linea nueva de la terminal debe salir '(env)'. Es necesario hacer esto cada vez que se entre a VScode y en vez de '(env)' salga 'PS'.
 
+
+###################################################################
+              --- #CREACION DE ARCHIVO .GITIGNORE# ---
+              !IMPORTANTE PARA QUE NO SE SUBA EL VENV!
+###################################################################
+
+1.- Si usas el metodo 2 para crear el VENV, es importante que crees el archivo de .gitignore para que github no trate de subir la carpeta env.
+2.- Para ello abre el bloc de notas y crea un documento nuevo.
+3.- Copia y pega esto dentro del archivo:
+
+# created by virtualenv automatically
+*
+
+4.- Ahora guarda el archivo (Archivo >> Guardar Como...).
+5.- En tipo de archivo, cambia de "Documentos de Texto" a "Todos los Archivos".
+6.- IMPORTANTE: Colocale el nombre '.gitignore'.
+7.- guardalo dentro de la carpeta 'env'.
+8.- Verifica que git ya no detecte la carpeta, esto puedes comprobarlo de 3 formas, escribe 'git status' en la terminal.
+En VScode, en la barra lateral no debe salir algun icono como '4k+'.
+En GitHub Desktop no debem aparecer los archivos de la carpeta env.
+
+
+###################################################################
+                     --- #INSTALLAR FLASK# ---
+###################################################################
+
+1.- Entra al modo entorno virtual 'env'.
+2.- Escribe el comando 'pip install flask'.
+3.- Espera a que se instale flask.
+4.- Escribe 'Flask --version' para comprobar que se ha instalado flask.
