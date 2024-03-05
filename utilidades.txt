@@ -76,3 +76,9 @@ En GitHub Desktop no debem aparecer los archivos de la carpeta env.
 2.- Escribe el comando 'pip install flask'.
 3.- Espera a que se instale flask.
 4.- Escribe 'Flask --version' para comprobar que se ha instalado flask.
+
+###################################################################
+                     --- #INSTALLAR FLASK# ---
+###################################################################
+
+pip install mysql-connector-python==8.0.29
