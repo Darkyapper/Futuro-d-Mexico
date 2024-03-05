@@ -1,7 +1,8 @@
-import import sqlite3
+import mysql.connector
 
-database = import sqlite3.connect(
-    host='your_host',
-    user='your_user',
-    password='your_password',
-    database='your_dbb'
+database = mysql.connector.connect(
+    host='localhost:3306',
+    user='id21959562_user1',
+    password='David17092002@',
+    database='id21959562_python_bbd'
+)
