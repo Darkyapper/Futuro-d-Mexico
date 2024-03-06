@@ -16,7 +16,7 @@ def InsertMachine(SN, ST, LOC): #Insertar maquinas a la base de datos
         conn.commit()
         conn.close()
         print("Maquina registrada exitosamente.")
-        time.sleep(2)
+    input()
 
 def DeleteMachine(SN): #Borrar maquina de la base de datos
     cursor.execute(f"SELECT * FROM machines WHERE serial_no = '{SN}'")
@@ -81,6 +81,36 @@ def VerReporteUno(RN): #Ver un reporte por codigo
         time.sleep(2)
     input()
 
+def CrearReporte(desc, SN): #Crea un reporte
+    cursor.execute(f"SELECT COUNT(*) FROM machines WHERE serial_no = {SN}")
+    existe = cursor.fetchone()[0]
+
+    if existe:
+        cursor.execute(f"INSERT INTO reportes (detalle, serial_no) VALUES ('{desc}', '{SN}')")
+        conn.commit()
+        conn.close()
+        print("reporte registrado exitosamente.")
+        input()
+    else:
+        print("El número de serie no corresponde a ninguna maquina existente. No se pudo completar el reporte.")
+        input()
+
+def BorrarReporte(NO):
+    cursor.execute(f"SELECT * FROM reportes WHERE serial_no = '{NO}'")
+    existing_machine = cursor.fetchone()
+
+    if existing_machine:
+        cursor.execute(f"DELETE FROM reportes WHERE serial_no='{NO}'")
+        conn.commit()
+        print("Reporte eliminado correctamente.")
+        time.sleep(2)
+    else:
+        print("La maquina no existe.")
+        time.sleep(2)
+        return
+    input()
+
+
 #MAIN - Ejecutor de los comandos principales
 e = False
 while e == False:
@@ -94,6 +124,8 @@ while e == False:
     print("---------CODIGOS VENTAS---------")
     print("5.- Ver todos los reportes.")
     print("6.- Ver un reporte.")
+    print("7.- Agregar un reporte.")
+    print("8.- Eliminar reporte")
 
     print("0.- Salir.")
 
@@ -143,9 +175,22 @@ while e == False:
         repornum = int(input())
         VerReporteUno(repornum)
 
+    elif choose == "7":
+        os.system("cls")
+        serialnum = ""
+        desc = ""
+
+        print("Escribe el numero de serie de la maquina defectuosa:")
+        serialnum = int(input())
+        print("Describe brevemente lo que ha pasado:")
+        desc = input()
+
+        CrearReporte(desc, serialnum)
+
     elif choose == "0":
         break
 
     else:
         os.system("cls")
         print("Esta no es una opción valida.")
+        input()
