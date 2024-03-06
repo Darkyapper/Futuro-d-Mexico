@@ -82,3 +82,22 @@ En GitHub Desktop no debem aparecer los archivos de la carpeta env.
 ###################################################################
 
 pip install mysql-connector-python==8.0.29
+
+###################################################################
+                     --- #CODIGOS# ---
+###################################################################
+
+SELECCIONAR
+cursor.execute("SELECT * FROM machines")
+
+INSERTAR
+cursor.execute("INSERT INTO machines (serial_no,status,location) VALUES (97251,'On','Tixkokob')")
+conn.commit()
+
+BORRAR
+cursor.execute("DELETE FROM machines WHERE serial_no=97251")
+conn.commit()
+
+print(cursor.fetchall())
+
+conn.close()
