@@ -31,6 +31,17 @@ def DeleteMachine(SN):
         print("La maquina no existe.")
         time.sleep(2)
         return
+    
+def EstadoMaquinaUno(SN):
+    cursor.execute(f"SELECT * FROM machines WHERE serial_no = '{SN}'")
+    resultado = cursor.fetchone()
+
+    if resultado:
+        print("Status: " + resultado[1])
+        time.sleep(2)
+    else:
+        print("Maquina no encontrada.")
+        time.sleep(2)
 
 e = False
 while e == False:
@@ -38,6 +49,7 @@ while e == False:
     print("Escoge una opcion para realizar:")
     print("1.- Insertar una maquina.")
     print("2.- Eliminar una maquina.")
+    print("3.- Ver estado de una maquina.")
     print("0.- Salir.")
 
     choose = input()
@@ -62,7 +74,13 @@ while e == False:
         print("Escribe el Numero de serie de la maquina:")
         serialnum = int(input())
         DeleteMachine(serialnum)
+    elif choose  == "3":
+        os.system("cls")
+        serialnum = ""
 
+        print("Escribe el Numero de serie de la maquina:")
+        serialnum = int(input())
+        EstadoMaquinaUno(serialnum)
     elif choose == "0":
         break
     else:
