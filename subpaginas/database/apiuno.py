@@ -18,8 +18,21 @@ def InsertMachine(SN, ST, LOC):
         print("Maquina registrada exitosamente.")
         time.sleep(2)
 
-e = False
+def DeleteMachine(SN):
+    cursor.execute(f"SELECT * FROM machines WHERE serial_no = '{SN}'")
+    existing_machine = cursor.fetchone()
 
+    if existing_machine:
+        cursor.execute(f"DELETE FROM machines WHERE serial_no='{SN}'")
+        conn.commit()
+        print("Maquina borrada exitosamente.")
+        time.sleep(2)
+    else:
+        print("La maquina no existe.")
+        time.sleep(2)
+        return
+
+e = False
 while e == False:
     os.system("cls")
     print("Escoge una opcion para realizar:")
@@ -42,6 +55,13 @@ while e == False:
         location = input()
 
         InsertMachine(serialnum, status, location)
+    elif choose == "2":
+        os.system("cls")
+        serialnum = ""
+
+        print("Escribe el Numero de serie de la maquina:")
+        serialnum = int(input())
+        DeleteMachine(serialnum)
 
     elif choose == "0":
         break
