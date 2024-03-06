@@ -96,19 +96,64 @@ def CrearReporte(desc, SN): #Crea un reporte
         input()
 
 def BorrarReporte(NO):
-    cursor.execute(f"SELECT * FROM reportes WHERE serial_no = '{NO}'")
-    existing_machine = cursor.fetchone()
+    cursor.execute(f"SELECT * FROM reportes WHERE no_reporte = '{NO}'")
+    exists = cursor.fetchone()
 
-    if existing_machine:
-        cursor.execute(f"DELETE FROM reportes WHERE serial_no='{NO}'")
+    if exists:
+        cursor.execute(f"DELETE FROM reportes WHERE no_reporte='{NO}'")
         conn.commit()
         print("Reporte eliminado correctamente.")
         time.sleep(2)
     else:
-        print("La maquina no existe.")
+        print("El reporte no existe.")
         time.sleep(2)
         return
     input()
+
+def EditMachine(SN):
+    cursor.execute(f"SELECT * FROM machines WHERE serial_no = '{SN}'")
+    resultado = cursor.fetchone()
+
+    if resultado:
+        print("Status: " + resultado[1])
+        estado = resultado[1]
+        time.sleep(2)
+        while True:
+            os.system("cls")
+            opcion = input("Seleccione una opción: 1 - Encender, 0 - Apagar, E - Salir: ")
+
+            if opcion == "1":
+                if estado == "On":
+                    print("La maquina ya está encendida. No puedes encenderla de nuevo.")
+                    time.sleep(3)
+                else:
+                    cursor.execute(f"UPDATE machines SET status == 'On' WHERE serial_no == {SN}")
+                    conn.commit()
+                    print("Maquina encendida correctamente.")
+                    time.sleep(3)
+                    break
+            elif opcion == "0":
+                if estado == "Off":
+                    print("La maquina ya está apagada. No puedes apagarla de nuevo.")
+                    time.sleep(3)
+                else:
+                    cursor.execute(f"UPDATE machines SET status == 'Off' WHERE serial_no == {SN}")
+                    conn.commit()
+                    print("Maquina apagada correctamente.")
+                    time.sleep(3)
+                    break
+            elif opcion == "E":
+                print("Saliendo...")
+                time.sleep(3)
+                break
+            else:
+                print("Opcion no valida.")
+                time.sleep(3)
+    else:
+        print("Maquina no encontrada.")
+        time.sleep(2)
+        input()
+
 
 
 #MAIN - Ejecutor de los comandos principales
@@ -121,13 +166,14 @@ while e == False:
     print("2.- Eliminar una maquina.")
     print("3.- Ver estado de una maquina.")
     print("4.- Ver estado de todas las maquinas.")
+    print("5.- Enceder/Apagar maquinas")
     print("---------CODIGOS VENTAS---------")
-    print("5.- Ver todos los reportes.")
-    print("6.- Ver un reporte.")
-    print("7.- Agregar un reporte.")
-    print("8.- Eliminar reporte")
-
+    print("6.- Ver todos los reportes.")
+    print("7.- Ver un reporte.")
+    print("8.- Agregar un reporte.")
+    print("9.- Eliminar reporte")
     print("0.- Salir.")
+    print("--------------------------------")
 
     choose = input()
     if choose == "1":
@@ -136,7 +182,7 @@ while e == False:
         status = ""
         location = ""
 
-        print("Escribe el Numero de serie de la maquina:")
+        print("Escribe el Numero de serie de la maquina nueva:")
         serialnum = int(input())
         print("Escribe el estado actual de la maquina:")
         status = input()
@@ -149,7 +195,7 @@ while e == False:
         os.system("cls")
         serialnum = ""
 
-        print("Escribe el Numero de serie de la maquina:")
+        print("Escribe el Numero de serie de la maquina a borrar:")
         serialnum = int(input())
         DeleteMachine(serialnum)
 
@@ -162,20 +208,30 @@ while e == False:
         EstadoMaquinaUno(serialnum)
 
     elif choose == "4":
+        os.system("cls")
         EstadoMaquinasTodas()
 
     elif choose == "5":
-        VerReportesTodos()
-
-    elif choose == "6":
         os.system("cls")
         serialnum = ""
 
-        print("Escribe el Numero del reporte:")
+        print("Escribe el numero de serie de la maquina:")
+        serialnum = int(input())
+        EditMachine(serialnum)
+
+    elif choose == "6":
+        os.system("cls")
+        VerReportesTodos()
+
+    elif choose == "7":
+        os.system("cls")
+        serialnum = ""
+
+        print("Escribe el numero del reporte:")
         repornum = int(input())
         VerReporteUno(repornum)
 
-    elif choose == "7":
+    elif choose == "8":
         os.system("cls")
         serialnum = ""
         desc = ""
@@ -186,6 +242,14 @@ while e == False:
         desc = input()
 
         CrearReporte(desc, serialnum)
+
+    elif choose == "9":
+        os.system("cls")
+        repornum = ""
+
+        print("Escribe el numero del reporte a borrar:")
+        repornum = int(input())
+        BorrarReporte(repornum)
 
     elif choose == "0":
         break
