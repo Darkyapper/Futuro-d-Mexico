@@ -1,4 +1,5 @@
 import sqlite3, os, time
+import django 
 
 conn = sqlite3.connect('baseuno.sqlite')
 cursor = conn.cursor()
