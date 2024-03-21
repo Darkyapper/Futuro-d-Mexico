@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/machine_reg', methods = ['POST'])
 
-def machine_reg():
+def registrar_maquina():
     data = request.json
     serial_no = data.get('ValidationDefault01')
     status = data.get('ValidationDefault04')
@@ -14,7 +14,7 @@ def machine_reg():
     conn = sqlite3.connect('baseuno.sqlite')
     cursor = conn.cursor()
 
-    cursor.execute("INSERT INTO machines (serial_no,status,location) VALUES (?, ?, ?)", (serial_no, status,location))
+    cursor.execute(f"INSERT INTO machines (serial_no,status,location) VALUES ({serial_no}, {status}, {location})")
     conn.commit()
     conn.close()
 
