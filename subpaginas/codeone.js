@@ -1,10 +1,10 @@
 function submitForm()
 {
     var form = document.getElementById('registrationForm');
-    var formData = new formData(form);
+    var formData = new FormData(form);
     var xhr = new XMLHttpRequest();
 
-    xhr.open("POST", "http://localhost:8000/subpaginas/registro.html");
+    xhr.open("POST", "http://localhost:5000/database/machine_reg");
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function()
     {

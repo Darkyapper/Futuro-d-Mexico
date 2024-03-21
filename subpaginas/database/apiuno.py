@@ -7,9 +7,9 @@ app = Flask(__name__)
 
 def registrar_maquina():
     data = request.json
-    serial_no = data.get('ValidationDefault01')
-    status = data.get('ValidationDefault04')
-    location = data.get('ValidationDefaultUsername')
+    serial_no = data.get('validationDefault01')
+    status = data.get('validationDefault04')
+    location = data.get('validationDefaultUsername')
 
     conn = sqlite3.connect('baseuno.sqlite')
     cursor = conn.cursor()
