@@ -24,9 +24,10 @@ function submitForm()
             }
         }
     };
-    var jsonData = {};
+    xhr.send(formData);
+   /* var jsonData = {};
     formData.forEach(function (value, key) {
         jsonData[key] = value;
     });
-    xhr.send(JSON.stringify(jsonData));
+    xhr.send(JSON.stringify(jsonData));*/
 }
