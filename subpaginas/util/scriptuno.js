@@ -1,8 +1,32 @@
-document.getElementById('registrationForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevenir el envío del formulario
-    var registrationMessage = document.getElementById('registrationMessage');
-    registrationMessage.style.display = 'block'; // Mostrar el mensaje de registro
-    setTimeout(function() {
-        registrationMessage.style.display = 'none'; // Ocultar el mensaje después de 3 segundos
-    }, 3000);
-});
+function submitForm()
+{
+    var form = document.getElementById('registrationForm');
+    var formData = new formData(form);
+    var xhr = new XMLHttpRequest();
+
+    xhr.open("POST", "http://localhost:8000/subpaginas/registro.html");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function()
+    {
+        if (xhr.readyState == 4)
+        {
+            if (xhr.status == 200)
+            {
+                var registrationMessage = document.getElementById('registrationMessage');
+                registrationMessage.style.display = 'block';
+                setTimeout(function()
+                {
+                    registrationMessage.style.display = 'none';
+                }, 3000);
+            } else
+            {
+                console.error(xhr.statusText);
+            }
+        }
+    };
+    var jsonData = {};
+    formData.forEach(function (value, key) {
+        jsonData[key] = value;
+    });
+    xhr.send(JSON.stringify(jsonData));
+}
