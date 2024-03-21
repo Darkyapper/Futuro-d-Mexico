@@ -84,6 +84,16 @@ En GitHub Desktop no debem aparecer los archivos de la carpeta env.
 pip install mysql-connector-python==8.0.29
 
 ###################################################################
+                --- #INICIAR SERVER DE PYTHON# ---
+###################################################################
+1.- Abrir el CMD
+2.- Buscar la dirección donde guardaste la carpeta futuro-d-Mexico
+3.- escribir el comando "python3 -m http.server"
+4.- esperar a que aparezca el mensaje 'Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...' en la consola
+5.- entrar al navegador y escribir la ruta 'http:localhost:8000/main.html'
+6.- Si se ve la página correctamente, está todo listo
+
+###################################################################
                      --- #CODIGOS# ---
 ###################################################################
 
