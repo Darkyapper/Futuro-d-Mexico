@@ -3,7 +3,7 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-@app.route('/machine_reg', methods = ['POST'])
+@app.route('/subpaginas/database/machine_reg', methods = ['POST'])
 
 def registrar_maquina():
     data = request.json
@@ -21,4 +21,4 @@ def registrar_maquina():
     return jsonify({"message" : "Maquina registrada con exitosamente"})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True , port=8000)
