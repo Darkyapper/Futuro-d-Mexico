@@ -4,7 +4,6 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 
 @app.route('/subpaginas/database/machine_reg', methods = ['POST'])
-
 def registrar_maquina():
     #data = request.json
     #data.get

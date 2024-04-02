@@ -5,7 +5,7 @@ function submitForm()
     var xhr = new XMLHttpRequest();
 
     xhr.open("POST", "http://localhost:8000/subpaginas/database/machine_reg");
-    xhr.setRequestHeader("Content-Type", "application/json");
+    //xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function()
     {
         if (xhr.readyState == 4)
