@@ -1,33 +1,22 @@
-function submitForm()
-{
-    var form = document.getElementById('registrationForm');
-    var formData = new FormData(form);
-    var xhr = new XMLHttpRequest();
+function submitForm() {
+    const serialNumber = document.getElementById('validationDefault01').value;
+    const location = document.getElementById('validationDefaultUsername').value;
+    const status = document.getElementById('validationDefault04').value;
 
-    xhr.open("POST", "http://localhost:8000/subpaginas/database/machine_reg");
-    //xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onreadystatechange = function()
-    {
-        if (xhr.readyState == 4)
-        {
-            if (xhr.status == 200)
-            {
-                var registrationMessage = document.getElementById('registrationMessage');
-                registrationMessage.style.display = 'block';
-                setTimeout(function()
-                {
-                    registrationMessage.style.display = 'none';
-                }, 3000);
-            } else
-            {
-                console.error(xhr.statusText);
-            }
-        }
-    };
-    xhr.send(formData);
-   /* var jsonData = {};
-    formData.forEach(function (value, key) {
-        jsonData[key] = value;
+    const data = {serialNumber, location, status};
+
+    fetch ("/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json"},
+        body: JSON.stringify(data)
+    }).then(response => response.json())
+    .then(responseData => {
+        const messageElement = document.getElementById('registrationMessage');
+        messageElement.textContent = responseData.message;
+        messageElement.style.display = 'block';
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again later.');
     });
-    xhr.send(JSON.stringify(jsonData));*/
 }
