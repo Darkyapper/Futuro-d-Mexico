@@ -14,7 +14,7 @@ def create_conection():
         print(f"Error al conectar a la base de datos: {e}")
         return conn
     
-@app.route('/register', methods=['POST'])
+@app.route('/registro/database', methods=['POST'])
 def register_machine():
     """Registra una máquina en la base de datos"""
     conn = create_conection()
