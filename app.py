@@ -21,6 +21,14 @@ class Report(db.Model):
     date = db.Column(db.String(10), nullable=False)
     serial_no = db.Column(db.Integer, nullable=False)
 
+class Gains(db.Model):
+    profit_id = db.Column(db.Integer, primary_key=True)
+    serial_no = db.Column(db.Integer, nullable=False)
+    day = db.Column(db.Integer, nullable=False)
+    month = db.Column(db.Integer, nullable=False)
+    year = db.Column(db.Integer, nullable=False)
+    gain_amount = db.Column(db.Integer, nullable=False)
+
 @app.before_request
 def create_tables():
     db.create_all()
@@ -50,6 +58,12 @@ def save_machine():
     db.session.add(machines)
     db.session.commit()
     return 'Machine created'
+
+@app.route('/consult')
+def consult():
+    gains = Gains.query.all()
+    machines= Machines.query.all()
+    return render_template('consulta_din.html', gains=gains, machines=machines)
 
 @app.route('/delete_machine/<serial_no>')
 def delete_machine(serial_no):

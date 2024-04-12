@@ -12,8 +12,7 @@
                 <nav class="Contenedor">
                     <ul>
                         <li><a href="{{url_for('registro')}}">Registrar</a></li>
-                        <li><a href="#">Consultas</a></li>
-                        <li><a href="#">Productos</a></li>
+                        <li><a href="{{url_for('consult')}}">Consultas</a></li>
                         <li><a href="{{url_for('reportes')}}">Reportes</a></li>
                         <li><a href="#">Contacto</a></li>
                     </ul>
@@ -45,19 +44,9 @@
               <div class="card" style="width: 18rem;" id = "card-menu">
                 <img class="card-img-top" src="{{ url_for('static', filename = 'main_rec/card-img.png' )}}" alt="Card image cap">
                 <div class="card-body">
-                  <h5 class="card-title">Consultar estado</h5>
-                  <p class="card-text">Haga una breve consulta acerca del estado de las máquinas y si requieren ser rellenadas.</p>
-                  <a href="#" class="btn btn-danger">Ir a consultas</a>
-                </div>
-              </div>
-
-              <!--Tarjeta de prodctos-->
-              <div class="card" style="width: 18rem;" id = "card-menu">
-                <img class="card-img-top" src="{{ url_for('static', filename = 'main_rec/card-img.png' )}}" alt="Card image cap">
-                <div class="card-body">
-                  <h5 class="card-title">Productos</h5>
-                  <p class="card-text">Revise y consulte los diversos productos que existen y en que máquinas pueden localizarse.</p>
-                  <a href="#" class="btn btn-danger">Ir a productos</a>
+                  <h5 class="card-title">Consultar ganancias</h5>
+                  <p class="card-text">Haga una breve consulta acerca de las ganancias diarias y mensuales de las maquinas.</p>
+                  <a href="{{url_for('consult')}}" class="btn btn-danger">Ir a consultas</a>
                 </div>
               </div>
 
