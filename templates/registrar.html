@@ -74,7 +74,7 @@
                         <td>{{ machine.serial_no }}</td>
                         <td>{{ machine.location }}</td>
                         <td>{{ machine.status }}</td>
-                        <td><a href = "" class = "btn btn-warning">Off/On</a></td>
+                        <td><a href = "/set_status/{{machine.serial_no}}" class = "btn btn-warning">Off/On</a></td>
                         <td><a href = "/delete_machine/{{machine.serial_no}}" class = "btn btn-danger">Eliminar</a></td>
                     </tr>
                     {% endfor %}

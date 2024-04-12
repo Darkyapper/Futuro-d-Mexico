@@ -41,6 +41,14 @@ def delete_machine(serial_no):
     db.session.commit()
     return redirect(url_for('registro'))
 
+@app.route('/set_status/<serial_no>')
+def set_status(serial_no):
+    machines = Machines.query.filter_by(serial_no=int(serial_no)).first()
+    if machines:
+        machines.status = 'Off' if machines.status == 'On' else 'On'
+        db.session.commit()
+        return redirect(url_for('registro'))
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=4000)
