@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -30,10 +30,16 @@ def registro():
 
 @app.route('/save_machine', methods=['POST'])
 def save_machine():
-    machines = Machines(serial_no=request.form['serial_number'], location=request.form['location'], status=request.form['status'])
+    machines = Machines(serial_no=request.form['serial_no'], location=request.form['location'], status=request.form['status'])
     db.session.add(machines)
     db.session.commit()
     return 'Machine created'
+
+@app.route('/delete_machine/<serial_no>')
+def delete_machine(serial_no):
+    machines = Machines.query.filter_by(serial_no=int(serial_no)).delete()
+    db.session.commit()
+    return redirect(url_for('registro'))
 
 
 if __name__ == '__main__':

@@ -31,7 +31,7 @@
                 <div class = "row">
                     <div class="col-md-4">
                         <label for="validationDefault01" class="form-label">No. serie</label>
-                        <input type="text" name = "serial_number" class="form-control" id="validationDefault01" required>
+                        <input type="text" name = "serial_no" class="form-control" id="validationDefault01" required>
                     </div>
                     <div class="col-md-4">
                         <label for="validationDefaultUsername" class="form-label">Ubicación</label>
@@ -64,6 +64,8 @@
                         <th scope="col">No. serie</th>
                         <th scope="col">Ubicación</th>
                         <th scope="col">Estado</th>
+                        <th scope="col">Acciones</th>
+                        <th scope="col">Eliminar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -72,6 +74,8 @@
                         <td>{{ machine.serial_no }}</td>
                         <td>{{ machine.location }}</td>
                         <td>{{ machine.status }}</td>
+                        <td><a href = "" class = "btn btn-warning">Off/On</a></td>
+                        <td><a href = "/delete_machine/{{machine.serial_no}}" class = "btn btn-danger">Eliminar</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>
