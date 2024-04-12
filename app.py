@@ -1,14 +1,40 @@
+import os
 from flask import Flask, render_template
+from flask_sqlalchemy import SQLAlchemy
+
+
+file_path = os.path.abspath(os.getcwd()) + '/database/machines.db'
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + file_path
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
 
-app.config["SQLALCHEMY_DATABASE_URL"] = "sqlite:///database\\baseuno.sqlite"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.static_folder = "static"
+class Machine(db.Model):
+    serial_no = db.Column(db.Integer, primary_key=True)
+    location = db.Column(db.String(100), nullable=False)
+    status = db.Column(db.String(10), nullable=False)
 
-@app.route("/")
+@app.before_request
+def create_tables():
+    db.create_all()
+
+@app.route('/')
 def home():
-    return render_template("main.html")
+    return render_template('home.html')
 
-if __name__ == "__main__":
+@app.route('/registro')
+def registro():
+    return render_template('registrar.html')
+
+@app.route('/api/machines')
+def get_machines():
+    machines = Machine.query.all()
+    print(machines)
+    return "<h1>Sucefully!</h1>"
+
+
+if __name__ == '__main__':
     app.run(debug=True, port=4000)
+    if not os.path.exists('db.sqlite'):
+        db.create_all()
