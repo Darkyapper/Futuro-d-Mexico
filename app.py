@@ -15,6 +15,12 @@ class Machines(db.Model):
     location = db.Column(db.String(100), nullable=False)
     status = db.Column(db.String(10), nullable=False)
 
+class Report(db.Model):
+    id_report = db.Column(db.Integer, primary_key=True)
+    description = db.Column(db.String(100), nullable=False)
+    date = db.Column(db.String(10), nullable=False)
+    serial_no = db.Column(db.Integer, nullable=False)
+
 @app.before_request
 def create_tables():
     db.create_all()
@@ -27,6 +33,11 @@ def home():
 def registro():
     machines = Machines.query.all()
     return render_template('registrar.html', machines=machines)
+
+@app.route('/reportar_user')
+def reportar_user():
+    machines = Machines.query.all()  
+    return render_template('report_user.html', machines=machines)
 
 @app.route('/save_machine', methods=['POST'])
 def save_machine():
