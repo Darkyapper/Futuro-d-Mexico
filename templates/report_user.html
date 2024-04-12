@@ -20,15 +20,14 @@
         </div>
 
         <div class = "repor_form">
-            <form class = "reportsForm">
+            <form class = "reportsForm" action="/save_report" method="POST">
                 <div class = "row">
                     <div class="form-floating">
-                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" required></textarea>
+                        <textarea class="form-control" name="description" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" required></textarea>
                         <label for="floatingTextarea2">Escribe en palabras breves lo que ha pasado</label>
-                      </div>
-                      <div class="form-floating">
-                        <input type="text" class="form-control" id="reportDate" placeholder="Fecha del reporte" required>
-                        <label for="reportDate">Fecha del reporte</label>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="date" id="reportDate" placeholder="Fecha del reporte" required>
                     </div>
                     <script>
                         document.addEventListener('DOMContentLoaded', function() {
@@ -38,20 +37,55 @@
                             });
                         });
                     </script>
-                    <div class="col-md-4" id = "serial_no_select">
+                    <div class="col-md-4">
                         <label for="machineSelect" class="form-label">Seleccione el número de serie de la maquina</label>
-                        <select class="form-select" name="machine_serial" id="machineSelect" required>
+                        <select class="form-select" name="serial_no" id="machineSelect" required>
                             <option selected disabled value="">Elige...</option>
                             {% for machine in machines %}
                                 <option>{{ machine.serial_no }}</option>
                             {% endfor %}
                         </select>
                     </div>
+                    <p id="registrationMessage" style="display: none;">Se han realizado el reporte.</p>
                     <div class="col-12">
-                        <button class="btn btn-primary" type="submit">Registrar</button>
+                        <button class="btn btn-primary" type="submit">Enviar</button>
                     </div>                                       
                 </div>
             </form>
         </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Obtener referencia al formulario y al mensaje de registro exitoso
+                var form = document.querySelector('.reportsForm');
+                var registrationMessage = document.getElementById('registrationMessage');
+        
+                // Agregar evento submit al formulario
+                form.addEventListener('submit', function(event) {
+                    // Mostrar el mensaje de registro exitoso
+                    registrationMessage.style.display = 'block';
+        
+                    // Evitar que el formulario se envíe normalmente
+                    event.preventDefault();
+        
+                    // Enviar los datos del formulario al servidor
+                    var formData = new FormData(form);
+                    fetch(form.action, {
+                        method: form.method,
+                        body: formData
+                    }).then(function(response) {
+                        if (response.ok) {
+                            // Después de 2 segundos, ocultar el mensaje
+                            setTimeout(function() {
+                                registrationMessage.style.display = 'none';
+                            }, 1000);
+        
+                            // Limpiar el formulario después de enviar los datos
+                            form.reset();
+                        }
+                    });
+                });
+            });
+        </script>
+        
     </body>
 </html>

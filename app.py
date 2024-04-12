@@ -39,6 +39,11 @@ def reportar_user():
     machines = Machines.query.all()  
     return render_template('report_user.html', machines=machines)
 
+@app.route('/reportes')
+def reportes():
+    reports = Report.query.all()
+    return render_template('report_admin.html', reports=reports)
+
 @app.route('/save_machine', methods=['POST'])
 def save_machine():
     machines = Machines(serial_no=request.form['serial_no'], location=request.form['location'], status=request.form['status'])
@@ -60,6 +65,18 @@ def set_status(serial_no):
         db.session.commit()
         return redirect(url_for('registro'))
 
+@app.route('/save_report', methods=['POST'])
+def save_report():
+    report = Report(description=request.form['description'], date=request.form['date'], serial_no=request.form['serial_no'])
+    db.session.add(report)
+    db.session.commit()
+    return 'Report created'
+
+@app.route('/delete_report/<id_report>')
+def delete_report(id_report):
+    report = Report.query.filter_by(id_report=int(id_report)).delete()
+    db.session.commit()
+    return redirect(url_for('reportes'))
 
 if __name__ == '__main__':
     app.run(debug=True, port=4000)

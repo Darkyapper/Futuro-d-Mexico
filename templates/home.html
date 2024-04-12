@@ -14,7 +14,7 @@
                         <li><a href="{{url_for('registro')}}">Registrar</a></li>
                         <li><a href="#">Consultas</a></li>
                         <li><a href="#">Productos</a></li>
-                        <li><a href="#">Reportes</a></li>
+                        <li><a href="{{url_for('reportes')}}">Reportes</a></li>
                         <li><a href="#">Contacto</a></li>
                     </ul>
                 </nav>
@@ -63,11 +63,11 @@
 
               <!--Tarjeta de reportes-->
               <div class="card" style="width: 18rem;" id = "card-menu">
-                <img class="card-img-top" src="{{ url_for('static', filename = 'main_rec/card-img.png' )}}" alt="Card image cap">
+                <img class="card-img-top" src="{{ url_for('static', filename = 'main_rec/card-img2.png' )}}" alt="Card image cap">
                 <div class="card-body">
                   <h5 class="card-title">Reportes</h5>
                   <p class="card-text">Haga seguimiento de los reportes hechos por los usuariosy verifique el estado de las máquinas.</p>
-                  <a href="#" class="btn btn-danger">Ir a reportes</a>
+                  <a href="{{url_for('reportes')}}" class="btn btn-danger">Ir a reportes</a>
                 </div>
               </div>
         </div>

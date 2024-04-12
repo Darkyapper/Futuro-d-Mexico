@@ -55,10 +55,18 @@ header{
 
 .repor_form label{
     font-family:"Quicksand";
-    font-size:20px;
+    font-size:16px;
     margin-left:15px;
 }
 
-.repor_form #serial_no_select{
-    
+.col-12{
+    margin-top:12px;
+}
+
+.form-floating{
+    margin-top: 12px;
+}
+
+.mb-3{
+    margin-top:12px;
 }
