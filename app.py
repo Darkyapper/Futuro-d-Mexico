@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -10,7 +10,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + file_path
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-class Machine(db.Model):
+class Machines(db.Model):
     serial_no = db.Column(db.Integer, primary_key=True)
     location = db.Column(db.String(100), nullable=False)
     status = db.Column(db.String(10), nullable=False)
@@ -27,11 +27,12 @@ def home():
 def registro():
     return render_template('registrar.html')
 
-@app.route('/api/machines')
-def get_machines():
-    machines = Machine.query.all()
-    print(machines)
-    return "<h1>Sucefully!</h1>"
+@app.route('/save_machine', methods=['POST'])
+def save_machine():
+    machines = Machines(serial_no=request.form['serial_number'], location=request.form['location'], status=request.form['status'])
+    db.session.add(machines)
+    db.session.commit()
+    return 'Machine created'
 
 
 if __name__ == '__main__':

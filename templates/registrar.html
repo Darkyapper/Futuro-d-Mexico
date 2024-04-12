@@ -27,25 +27,25 @@
         </div>
         <!--Formulario-->
         <div class = "reg_form">
-            <form id = "registrationForm" action = "/register" method="POST">
+            <form id = "registrationForm" action="/save_machine" method="POST">
                 <div class = "row">
                     <div class="col-md-4">
                         <label for="validationDefault01" class="form-label">No. serie</label>
-                        <input type="text" class="form-control" id="validationDefault01" required>
+                        <input type="text" name = "serial_number" class="form-control" id="validationDefault01" required>
                     </div>
                     <div class="col-md-4">
                         <label for="validationDefaultUsername" class="form-label">Ubicación</label>
                     <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend2">📍</span>
-                        <input type="text" class="form-control" id="validationDefaultUsername" aria-describedby="inputGroupPrepend2" required>
+                        <input type="text" name = "location" class="form-control" id="validationDefaultUsername" aria-describedby="inputGroupPrepend2" required>
                     </div>
                     </div>
                     <div class="col-md-4">
                         <label for="validationDefault04" class="form-label">Estado</label>
-                        <select class="form-select" id="validationDefault04" required>
+                        <select class="form-select" name = "status" id="validationDefault04" required>
                             <option selected disabled value="">Elige...</option>
-                            <option>Encendido</option>
-                            <option>Apagado</option>
+                            <option>On</option>
+                            <option>Off</option>
                         </select>
                     </div>
                     <p id="registrationMessage" style="display: none;">Se han registrado los datos.</p>
