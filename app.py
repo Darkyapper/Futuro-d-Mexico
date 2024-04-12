@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -25,7 +25,8 @@ def home():
 
 @app.route('/registro')
 def registro():
-    return render_template('registrar.html')
+    machines = Machines.query.all()
+    return render_template('registrar.html', machines=machines)
 
 @app.route('/save_machine', methods=['POST'])
 def save_machine():
