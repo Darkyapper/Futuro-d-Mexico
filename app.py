@@ -29,6 +29,26 @@ class Gains(db.Model):
     year = db.Column(db.Integer, nullable=False)
     gain_amount = db.Column(db.Integer, nullable=False)
 
+class Products(db.Model):
+    product_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    supplier = db.Column(db.String(100), nullable=False)
+    pack_cost = db.Column(db.Integer, nullable=False)
+    date = db.Column(db.String(10), nullable=False)
+    details = db.Column(db.String(100), nullable=False)
+
+def unique_suppliers(products): #Funcion para obtener los proveedores unicos en Filtros de Consulta_pro
+    unique = set()
+    for product in products:
+        unique.add(product.supplier)
+    return unique
+
+def unique_dates(products): #Funcion para obtener las fechas unicas en Filtros de Consulta_pro
+    unique = set()
+    for product in products:
+        unique.add(product.date)
+    return unique
+
 @app.before_request
 def create_tables():
     db.create_all()
@@ -54,7 +74,8 @@ def reportes():
 
 @app.route('/productos')
 def productos():
-    return render_template('consulta_pro.html')
+    products = Products.query.all()
+    return render_template('consulta_pro.html', products=products,unique_suppliers=unique_suppliers,unique_dates=unique_dates)
 
 @app.route('/save_machine', methods=['POST'])
 def save_machine():
