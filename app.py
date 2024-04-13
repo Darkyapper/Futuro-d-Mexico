@@ -52,6 +52,10 @@ def reportes():
     reports = Report.query.all()
     return render_template('report_admin.html', reports=reports)
 
+@app.route('/productos')
+def productos():
+    return render_template('consulta_pro.html')
+
 @app.route('/save_machine', methods=['POST'])
 def save_machine():
     machines = Machines(serial_no=request.form['serial_no'], location=request.form['location'], status=request.form['status'])

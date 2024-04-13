@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Consulta de ganancias</title>
+        <link rel = "stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+        <link rel = "stylesheet" type="text/css" href = "{{ url_for('static', filename = 'consult/consulta_din.css') }}">
+        <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename = 'main_rec/icon.ico')}}">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+    </head>
+    <body>
+        <header> <!--Aquí es el codigo de la barra de navegación superior-->
+            <div class = "header_menu">
+                <a href = "{{url_for('home')}}"><h1 id = "Title">Administrador</h1></a>
+                <nav class="Contenedor">
+                    <ul>
+                        <li><a href="{{url_for('registro')}}">Registrar</a></li>
+                        <li><a href="{{url_for('consult')}}">Consultas</a></li>
+                        <li><a href="{{url_for('productos')}}">Productos</a></li>
+                        <li><a href="{{url_for('reportes')}}">Reportes</a></li>
+                        <li><a href="#">Contacto</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+    </body>
+</html>
