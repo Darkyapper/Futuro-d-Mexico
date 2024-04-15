@@ -56,12 +56,15 @@
                     </tbody>
                 </table>
                 <script>
+                    var accionesNecesarias = false; // Variable para determinar si hay acciones necesarias
+                
                     $(document).ready(function () {
                         $('#machine_contents_table').DataTable();
                     });
-
+                
                     function buscarInformacion() {
                         var serialNo = $('#serial_no').val();
+                        accionesNecesarias = false; // Reiniciar la variable a false
                         if (serialNo) {
                             $.ajax({
                                 type: 'GET',
@@ -79,33 +82,32 @@
                                             '<td> $' + item.price + '</td>' +
                                             '<td>' + actionNeeded + '</td>' +
                                             '</tr>');
-                                            if (item.action_needed == 'Acción necesaria') {
-                                                accionesNecesarias = true; // Hay al menos una acción necesaria activa
-                                            }
+                                        if (item.action_needed == 'Acción necesaria') {
+                                            accionesNecesarias = true; // Hay al menos una acción necesaria activa
+                                        }
                                     });
                                     if (accionesNecesarias) {
                                         $('#ver_acciones_btn').prop('disabled', false); // Activar el botón
                                     } else {
                                         $('#ver_acciones_btn').prop('disabled', true); // Desactivar el botón
                                     }
-
                                 }
                             });
                         } else {
                             $('#machine_contents_table tbody').empty();
                         }
                     }
-
+                
                     function obtenerFechaActual() {
                         var fecha = new Date();
                         var dia = fecha.getDate();
                         var mes = fecha.getMonth() + 1; // Los meses son indexados desde 0
                         var año = fecha.getFullYear();
-
+                
                         // Formatear la fecha como dd-mm-yyyy
                         return dia + '-' + mes + '-' + año;
                     }
-                    
+                
                     function crearReporteRellenado() {
                         var serialNo = $('#serial_no').val();
                         var date = obtenerFechaActual(); // Función para obtener la fecha actual en formato 'dd-mm-yyyy'
@@ -128,7 +130,7 @@
                                 } else {
                                     // Si no hay reporte, determinar el valor de status basado en la variable accionesNecesarias
                                     status = (accionesNecesarias) ? 1 : 0;
-
+                
                                     // Realizar la solicitud AJAX para crear el reporte
                                     $.ajax({
                                         type: 'POST',
@@ -157,13 +159,16 @@
                             }
                         });
                     }
-
                 </script>
+                
                 <div class = "buttons-group">
                     <button type="button" id="ver_acciones_btn" class="btn btn-warning" onclick="crearReporteRellenado()" disabled>Crear reporte de rellenado</button>
                     <a href = "{{url_for('report_pro_mac')}}"><button type="button" id="ver_acciones_btn" class="btn btn-success">Ver reportes</button></a>
                 </div>
             </div>
         </div>
+        <footer>
+            <p>*Las maquinas se rellenan de forma manual.</p>
+        </footer>
     </body>
 </html>

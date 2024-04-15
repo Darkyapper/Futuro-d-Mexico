@@ -27,9 +27,9 @@
         </header>
 
         <div class = "consult_table">
-            <h1>Reportes de máquinas</h1>
+            <h1>Reportes productos de máquinas</h1>
             <div class = "container mt-4">
-                <div class="container mt-4">
+                <div id="wawa" class="container mt-4">
                     <label for="serial_no">Seleccionar ID de la máquina:</label>
                     <select id="serial_no">
                         <option value="">Elige...</option>
@@ -54,10 +54,6 @@
                     </tbody>
                 </table>
                 <script>
-                    $(document).ready(function () {
-                        $('#machine_contents_table').DataTable();
-                    });
-
                     function buscarInformacion() {
                         var serialNo = $('#serial_no').val();
                         if (serialNo) {
