@@ -47,7 +47,7 @@
                             <th scope="col">No. de Selección</th>
                             <th scope="col">Cantidad</th>
                             <th scope="col">Precio</th>
-                            <th scope="col">Detalles</th>
+                            <th scope="col">Acción</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -58,7 +58,7 @@
                     $(document).ready(function () {
                         $('#machine_contents_table').DataTable();
                     });
-                
+
                     function buscarInformacion() {
                         var serialNo = $('#serial_no').val();
                         if (serialNo) {
@@ -78,14 +78,90 @@
                                             '<td> $' + item.price + '</td>' +
                                             '<td>' + actionNeeded + '</td>' +
                                             '</tr>');
+                                            if (item.action_needed == 'Acción necesaria') {
+                                                accionesNecesarias = true; // Hay al menos una acción necesaria activa
+                                            }
                                     });
+                                    if (accionesNecesarias) {
+                                        $('#ver_acciones_btn').prop('disabled', false); // Activar el botón
+                                    } else {
+                                        $('#ver_acciones_btn').prop('disabled', true); // Desactivar el botón
+                                    }
+
                                 }
                             });
                         } else {
                             $('#machine_contents_table tbody').empty();
                         }
                     }
+
+                    function obtenerFechaActual() {
+                        var fecha = new Date();
+                        var dia = fecha.getDate();
+                        var mes = fecha.getMonth() + 1; // Los meses son indexados desde 0
+                        var año = fecha.getFullYear();
+
+                        // Formatear la fecha como dd-mm-yyyy
+                        return dia + '-' + mes + '-' + año;
+                    }
+                    
+                    function crearReporteRellenado() {
+                        var serialNo = $('#serial_no').val();
+                        var date = obtenerFechaActual(); // Función para obtener la fecha actual en formato 'dd-mm-yyyy'
+                        var status = 0;
+                        if (accionesNecesarias) {
+                            status = 1;
+                        }
+                        else {
+                            status = 0;
+                        }
+                        // Realizar la solicitud AJAX para enviar la información al servidor
+                        $.ajax({
+                            type: 'GET',
+                            url: '/get_report_info/' + serialNo,
+                            success: function (response) {
+                                // Verificar si hay algún reporte asociado al serialNo
+                                if (response.length > 0) {
+                                    // Si hay un reporte, mostrar un mensaje de error y no crear el reporte
+                                    alert('La máquina ya tiene un reporte asociado. No se puede crear otro.');
+                                } else {
+                                    // Si no hay reporte, determinar el valor de status basado en la variable accionesNecesarias
+                                    status = (accionesNecesarias) ? 1 : 0;
+
+                                    // Realizar la solicitud AJAX para crear el reporte
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '/crear_reporte_rellenado',
+                                        contentType: 'application/json',
+                                        data: JSON.stringify({
+                                            serial_no: serialNo,
+                                            location: location,
+                                            date: date,
+                                            status: status
+                                        }),
+                                        success: function (response) {                  
+                                            // Manejar la respuesta del servidor, por ejemplo, mostrar un mensaje de éxito
+                                            alert('Reporte de rellenado creado exitosamente.');
+                                        },
+                                        error: function (error) {                   
+                                            // Manejar errores, por ejemplo, mostrar un mensaje de error
+                                            alert('Ocurrió un error al crear el reporte de rellenado.');
+                                        }
+                                    });
+                                }
+                            },
+                            error: function (error) {
+                                // Manejar errores, por ejemplo, mostrar un mensaje de error
+                                alert('Ocurrió un error al verificar el reporte de la máquina.');
+                            }
+                        });
+                    }
+
                 </script>
+                <div class = "buttons-group">
+                    <button type="button" id="ver_acciones_btn" class="btn btn-warning" onclick="crearReporteRellenado()" disabled>Crear reporte de rellenado</button>
+                    <button type="button" id="ver_acciones_btn" class="btn btn-success" onclick="" >Ver reportes</button>
+                </div>
             </div>
         </div>
     </body>

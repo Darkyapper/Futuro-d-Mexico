@@ -52,7 +52,14 @@ class Machine_Content(db.Model):
     machines = relationship('Machines', backref='machine_contents')
     products = relationship('Products', backref='machine_contents')
 
-#Aqupi se definen funciones para filtros unicos
+class Empty_Report(db.Model):
+    report_id = db.Column(db.Integer, primary_key=True)
+    serial_no = db.Column(db.Integer, db.ForeignKey('machines.serial_no'), nullable=False)
+    date = db.Column(db.String(10), nullable=False)
+    status = db.Column(db.Integer, nullable=False)
+    machines = relationship('Machines', backref='empty_report')
+
+#Aqui se definen funciones para filtros unicos
 def unique_suppliers(products): #Funcion para obtener los proveedores unicos en Filtros de Consulta_pro
     unique = set()
     for product in products:
@@ -161,8 +168,32 @@ def get_machines_content(serial_no):
             'quantity': content.quantity,
             'price': content.price,
             'action_needed':"Acción necesaria" if content.action_needed == 1 else "Ninguna"
-        })
+            })
     return jsonify(machine_info)
+
+@app.route('/crear_reporte_rellenado', methods=['POST'])
+def crear_reporte_rellenado():
+    data = request.get_json()
+    serial_no = data['serial_no']
+    date = data['date']
+    status = data['status']
+    empty_report = Empty_Report(serial_no=serial_no, date=date, status=status)
+    db.session.add(empty_report)
+    db.session.commit()
+    return 'Reporte de rellenado creado exitosamente.', 200
+
+@app.route('/get_report_info/<serial_no>', methods=['GET'])
+def get_report_info(serial_no):
+    ereports = Empty_Report.query.filter_by(serial_no=int(serial_no)).all()
+    ereport_info = []
+    for ereport in ereports:
+        ereport_info.append({
+            'report_id': ereport.report_id,
+            'serial_no': ereport.machines.serial_no,
+            'date': ereport.date,
+            'status': "Ok" if ereport.status == 1 else "necesita rellenarse"
+        })
+    return jsonify(ereport_info)
 
 if __name__ == '__main__':
     app.run(debug=True, port=4000)
