@@ -27,6 +27,7 @@
         </header>
 
         <div class = "consult_table">
+            <h1>Estado de productos de las máquinas</h1>
             <div class = "container mt-4">
                 <div class="container mt-4">
                     <label for="serial_no">Seleccionar ID de la máquina:</label>
@@ -160,7 +161,7 @@
                 </script>
                 <div class = "buttons-group">
                     <button type="button" id="ver_acciones_btn" class="btn btn-warning" onclick="crearReporteRellenado()" disabled>Crear reporte de rellenado</button>
-                    <button type="button" id="ver_acciones_btn" class="btn btn-success" onclick="" >Ver reportes</button>
+                    <a href = "{{url_for('report_pro_mac')}}"><button type="button" id="ver_acciones_btn" class="btn btn-success">Ver reportes</button></a>
                 </div>
             </div>
         </div>

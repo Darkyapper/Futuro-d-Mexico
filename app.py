@@ -119,6 +119,12 @@ def machine_st():
     machine_contents = Machine_Content.query.all()
     return render_template('status_machines.html', machines=machines, products=products, machine_contents=machine_contents)
 
+@app.route('/productos/machine_st/reportes')
+def report_pro_mac():
+    machines = Machines.query.all();
+    empty_reports = Empty_Report.query.all()
+    return render_template('report_pro_mac.html', machines=machines, empty_reports=empty_reports)
+
 #Aquí se definen todas las solicitudes que la página necesite hacer
 @app.route('/save_machine', methods=['POST'])
 def save_machine():
@@ -190,8 +196,9 @@ def get_report_info(serial_no):
         ereport_info.append({
             'report_id': ereport.report_id,
             'serial_no': ereport.machines.serial_no,
+            'location': ereport.machines.location,
             'date': ereport.date,
-            'status': "Ok" if ereport.status == 1 else "necesita rellenarse"
+            'status': "Ok" if ereport.status == 1 else "Necesita rellenarse"
         })
     return jsonify(ereport_info)
 

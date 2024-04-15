@@ -48,3 +48,12 @@ header{
     transition-duration: 0.12s;
     transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
 }
+
+.consult_table h1{
+    text-align:center;
+    font-weight:750;
+    font-family:"Poppins";
+    margin-top:20px;
+    color:black;
+    font-size:45;
+}
