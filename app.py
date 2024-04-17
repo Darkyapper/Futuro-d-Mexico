@@ -1,8 +1,12 @@
 import os
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify, redirect, url_for, send_file
 from flask_sqlalchemy import SQLAlchemy
+import sqlite3
 from sqlalchemy.orm import relationship
-
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from io import BytesIO
 
 file_path = os.path.abspath(os.getcwd()) + '/database/machines.db'
 
@@ -10,6 +14,42 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + file_path
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
+#definir acciones
+def generar_pdf2(nombre_archivo):
+    # Conectar a la base de datos SQLite
+    conexion = sqlite3.connect("database/machines.db")
+    cursor = conexion.cursor()
+    # Obtener los datos de la tabla de reportes
+    cursor.execute("SELECT * FROM empty__report")
+    datos = cursor.fetchall()
+    # Cerrar la conexión a la base de datos
+    conexion.close()
+    # Crear el documento PDF
+    doc = SimpleDocTemplate(nombre_archivo, pagesize=letter)
+    tabla_datos = []
+    # Agregar encabezados de columna a la tabla de datos
+    encabezados = ["Report ID", "Serial No", "Location", "Product ID", "Name", "Date", "Status"]
+    tabla_datos.append(encabezados)
+    # Agregar los datos de la tabla a la tabla de datos
+    for fila in datos:
+        tabla_datos.append(fila)
+    # Crear la tabla con los datos
+    tabla = Table(tabla_datos)
+
+    # Estilo de la tabla
+    estilo_tabla = TableStyle([('BACKGROUND', (0,0), (-1,0), colors.grey),
+                               ('TEXTCOLOR', (0,0), (-1,0), colors.whitesmoke),
+                               ('ALIGN', (0,0), (-1,-1), 'CENTER'),
+                               ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
+                               ('BOTTOMPADDING', (0,0), (-1,0), 12),
+                               ('BACKGROUND', (0,1), (-1,-1), colors.beige),
+                               ('GRID', (0,0), (-1,-1), 1, colors.black)])
+
+    tabla.setStyle(estilo_tabla)
+    # Agregar la tabla al documento
+    elementos = [tabla]
+    doc.build(elementos)
 
 #Aquí se definen las tablas de la base de datos
 class Machines(db.Model):
@@ -55,8 +95,12 @@ class Machine_Content(db.Model):
 class Empty_Report(db.Model):
     report_id = db.Column(db.Integer, primary_key=True)
     serial_no = db.Column(db.Integer, db.ForeignKey('machines.serial_no'), nullable=False)
+    location = db.Column(db.String(100), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.product_id'), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
     date = db.Column(db.String(10), nullable=False)
     status = db.Column(db.Integer, nullable=False)
+    products = relationship('Products', backref='empty_report')
     machines = relationship('Machines', backref='empty_report')
 
 #Aqui se definen funciones para filtros unicos
@@ -114,10 +158,11 @@ def registrar_producto():
 
 @app.route('/productos/machine_st')
 def machine_st():
-    machines = Machines.query.all()
-    products = Products.query.all()
-    machine_contents = Machine_Content.query.all()
-    return render_template('status_machines.html', machines=machines, products=products, machine_contents=machine_contents)
+    machine_contents = db.session.query(Machine_Content, Machines, Products).\
+        join(Machines, Machines.serial_no == Machine_Content.serial_no).\
+        join(Products, Products.product_id == Machine_Content.product_id).\
+        all()
+    return render_template('status_machines.html', machine_contents=machine_contents)
 
 @app.route('/productos/machine_st/reportes')
 def report_pro_mac():
@@ -177,17 +222,6 @@ def get_machines_content(serial_no):
             })
     return jsonify(machine_info)
 
-@app.route('/crear_reporte_rellenado', methods=['POST'])
-def crear_reporte_rellenado():
-    data = request.get_json()
-    serial_no = data['serial_no']
-    date = data['date']
-    status = data['status']
-    empty_report = Empty_Report(serial_no=serial_no, date=date, status=status)
-    db.session.add(empty_report)
-    db.session.commit()
-    return 'Reporte de rellenado creado exitosamente.', 200
-
 @app.route('/get_report_info/<serial_no>', methods=['GET'])
 def get_report_info(serial_no):
     ereports = Empty_Report.query.filter_by(serial_no=int(serial_no)).all()
@@ -201,6 +235,15 @@ def get_report_info(serial_no):
             'status': "Ok" if ereport.status == 1 else "Necesita rellenarse"
         })
     return jsonify(ereport_info)
+
+@app.route('/generar_pdf', methods=['GET'])
+def generar_reporte_pdf():
+    # Generar el PDF
+    nombre_archivo_pdf = "reporte.pdf"
+    generar_pdf2(nombre_archivo_pdf)  # Llamada a la función para generar el PDF
+    
+    # Enviar el PDF como respuesta
+    return send_file(nombre_archivo_pdf, as_attachment=True)
 
 if __name__ == '__main__':
     app.run(debug=True, port=4000)

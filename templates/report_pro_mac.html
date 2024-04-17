@@ -1,7 +1,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Reportes de productos de máquinas</title>
+        <title>Máquinas a rellenar</title>
         <link rel = "stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
         <link rel = "stylesheet" type="text/css" href = "{{ url_for('static', filename = 'consult_prod/consulta_pro.css') }}">
         <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename = 'main_rec/icon.ico')}}">
@@ -27,59 +27,62 @@
         </header>
 
         <div class = "consult_table">
-            <h1>Reportes productos de máquinas</h1>
+            <h1>Máquinas a rellenar</h1>
             <div class = "container mt-4">
-                <div id="wawa" class="container mt-4">
-                    <label for="serial_no">Seleccionar ID de la máquina:</label>
-                    <select id="serial_no">
-                        <option value="">Elige...</option>
-                        {% for machine in machines %}
-                            <option value="{{ machine.serial_no }}">{{ machine.serial_no }}</option>
-                        {% endfor %}
-                    </select>
-                    <button type="button" onclick="buscarInformacion()">Buscar</button>
-                </div>
                 <table class ="table" id="machine_contents_table">
                     <thead>
                         <tr>
                             <th scope="col">No. de reporte</th>
-                            <th scopee="col">No. de serie</th>
                             <th scope="col">Ubicación</th>
+                            <th scope="col">No. Producto</th>
+                            <th scope="col">Producto agotado</th>
                             <th scope="col">Fecha</th>
-                            <th scope="col">Estado</th>
                         </tr>
                     </thead>
                     <tbody>
-                         
+                         {% for report in empty_reports %}
+                            <tr>
+                                <td>{{ report.report_id }}</td>
+                                <td>{{ report.location }}</td>
+                                <td>{{ report.product_id }}</td>
+                                <td>{{ report.name }}</td>
+                                <td>{{ report.date }}</td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
+                <div>
+                    <button class="btn btn-success" onclick = "generarPDF()">Generar PDF del reporte</button>
+                </div>
                 <script>
-                    function buscarInformacion() {
-                        var serialNo = $('#serial_no').val();
-                        if (serialNo) {
-                            $.ajax({
-                                type: 'GET',
-                                url: '/get_report_info/' + serialNo,
-                                success: function (data) {
-                                    $('#machine_contents_table tbody').empty();
-                                    $.each(data, function (index, item) {
-                                        var status = (item.status == 'Ok') ? 'Necesita rellenarse' : 'Ok';
-                                        $('#machine_contents_table tbody').append('<tr>' +
-                                            '<td>' + item.report_id + '</td>' +
-                                            '<td>' + item.serial_no + '</td>' +
-                                            '<td>' + item.location + '</td>' +
-                                            '<td>' + item.date + '</td>' +
-                                            '<td>' + status + '</td>' +
-                                            '</tr>');
-                                    });
+                    function generarPDF() {
+                        // Enviar una solicitud GET al servidor para generar el PDF
+                        fetch('/generar_pdf')
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Error al generar el PDF');
                                 }
+                                return response.blob();
+                            })
+                            .then(blob => {
+                                // Descargar el PDF
+                                const url = window.URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = 'reporte.pdf';
+                                document.body.appendChild(a);
+                                a.click();
+                                window.URL.revokeObjectURL(url);
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
                             });
-                        } else {
-                            $('#machine_contents_table tbody').empty();
-                        }
                     }
                 </script>
             </div>
         </div>
+        <footer>
+            <p>*---.</p>
+        </footer>
     </body>
 </html>
